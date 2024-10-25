@@ -1,0 +1,38 @@
+---
+# svc-nothing > cluset ip(default)
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nothing
+spec:
+  selector:
+    app: nothing
+  ports:
+  - port: 80  
+    targetPort: 80
+---
+# deploy-nothing
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nothing
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nothing
+  template:
+    metadata:
+      labels:
+        app: nothing
+    spec:
+      containers:
+      - name: main
+        image: dododong478/portal:nothing
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
+

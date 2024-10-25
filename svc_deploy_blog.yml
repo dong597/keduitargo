@@ -1,0 +1,38 @@
+---
+# svc-blog > cluset ip(default)
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-blog
+spec:
+  selector:
+    app: blog
+  ports:
+  - port: 80  
+    targetPort: 80
+---
+# deploy-blog
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog
+spec:
+  ingressClassName: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      containers:
+      - name: shop
+        image: dododong478/portal:blog
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
